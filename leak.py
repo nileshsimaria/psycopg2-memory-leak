@@ -1,3 +1,6 @@
+import os
+import psycopg2
+from psycopg2.extras import NamedTupleCursor, register_composite, Json
 import time
 import tracemalloc
 
@@ -22,7 +25,7 @@ def connect(uri):
                 break
             else:
                 backoff = 2 ** retry
-                print('Retrying ...')
+                print('Retry attempt {}/{} (wait={}s)...'.format(retry, MAX_RETRIES, backoff))
                 time.sleep(backoff)
 
     if conn:
